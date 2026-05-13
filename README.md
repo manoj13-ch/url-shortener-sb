@@ -43,7 +43,5 @@ jwt.secret=YOUR_JWT_SECRET
 \```
 
 ## Live Demo
-[Link here]
+[[Link here]](https://url-shortener-sb-lcj8.onrender.com/E5qG2O5E)
 
-## License
-MIT
