@@ -1,6 +1,4 @@
 package com.url.shortener.security;
-
-
 import com.url.shortener.security.jwt.JwtAuthenticationFilter;
 import com.url.shortener.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -23,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @AllArgsConstructor
 public class WebSecurityConfig {
-
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
@@ -52,12 +49,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configure(http))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/urls/**").authenticated()
-                                .requestMatchers("/{shortUrl}").permitAll()
-                                .anyRequest().authenticated()
-                        );
+                        .requestMatchers("/api/urls/**").authenticated()
+                        .requestMatchers("/{shortUrl}").permitAll()
+                        .anyRequest().authenticated()
+                );
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
